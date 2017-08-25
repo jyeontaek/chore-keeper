@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:orientation="vertical"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_chore_icon"
+        android:scaleType="centerInside"
+        android:layout_height="80dp"
+        android:layout_width="80dp"
+        android:cropToPadding="true"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="#dadada"/>
+
+    <TextView
+        android:id="@+id/tv_chore_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintLeft_toRightOf="@+id/iv_chore_icon"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="0.509"
+        app:layout_constraintTop_toBottomOf="@+id/iv_chore_icon"
+        app:layout_constraintBottom_toTopOf="@+id/iv_chore_icon"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#dadada"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_chore_icon"
+        tools:layout_editor_absoluteX="8dp"/>
+
+</android.support.constraint.ConstraintLayout>
