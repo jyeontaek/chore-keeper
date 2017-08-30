@@ -1,5 +1,6 @@
 package com.yeontaekj.chorekeeper;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.new_task:
+                startAddNewChoreActivity();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startAddNewChoreActivity() {
+        Intent intent = new Intent(this, NewChoreActivity.class);
+        startActivity(intent);
     }
 }
