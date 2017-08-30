@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.new_task:
+            case R.id.new_chore:
                 startAddNewChoreActivity();
                 return true;
         }

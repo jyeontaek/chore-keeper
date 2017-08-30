@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">ChoreKeeper</string>
-    <string name="new_task">Add New Task</string>
+    <string name="new_chore">Add New Chore</string>
 </resources>
