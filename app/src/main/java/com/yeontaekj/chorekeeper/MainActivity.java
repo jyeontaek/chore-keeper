@@ -8,21 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ChoreAdapter choreAdapter;
+    private List<Chore> tempList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Chore[] tempList = {new Chore("Test1"), new Chore("Test2")
-                , new Chore("Test2"), new Chore("Test2"), new Chore("Test2"), new Chore("Test2")
-                , new Chore("Test2")
-                , new Chore("Test2")
-                , new Chore("Test2")};
-        ChoreAdapter choreAdapter = new ChoreAdapter(tempList);
+        tempList = new ArrayList<>();
+        choreAdapter = new ChoreAdapter(tempList);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(
@@ -49,6 +50,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void startAddNewChoreActivity() {
         Intent intent = new Intent(this, NewChoreActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == NewChoreActivity.RESULT_OK) {
+                String name = data.getStringExtra("name");
+                String description = data.getStringExtra("description");
+                tempList.add(new Chore(name));
+                choreAdapter.notifyItemInserted(tempList.size() - 1);
+            }
+        }
     }
 }

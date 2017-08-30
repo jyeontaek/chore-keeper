@@ -7,15 +7,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by yeontaekj on 8/24/2017.
  */
 
 public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHolder> {
 
-    private Chore[] mChoreList;
+    private List<Chore> mChoreList;
 
-    public ChoreAdapter(Chore[] choreList) {
+    public ChoreAdapter(List<Chore> choreList) {
         mChoreList = choreList;
     }
 
@@ -39,11 +41,11 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
 
     @Override
     public void onBindViewHolder(ChoreViewHolder holder, int position) {
-        holder.textView.setText(mChoreList[position].getName());
+        holder.textView.setText(mChoreList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return mChoreList.length;
+        return mChoreList.size();
     }
 }
