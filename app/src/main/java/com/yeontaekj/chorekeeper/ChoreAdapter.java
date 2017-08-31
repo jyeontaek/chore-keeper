@@ -21,16 +21,20 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
 
     private List<Chore> mChoreList;
     private Context mContext;
+    private MainActivity.OnDeleteRequestListener mDeleteRequestListener;
 
-    public ChoreAdapter(Context context, List<Chore> choreList) {
+    public ChoreAdapter(Context context, List<Chore> choreList, MainActivity.OnDeleteRequestListener
+                        listener) {
         mChoreList = choreList;
         mContext = context;
+        mDeleteRequestListener = listener;
     }
 
     class ChoreViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
         ImageButton calendar;
+        ImageButton deleteButton;
 
         public ChoreViewHolder(View view) {
             super(view);
@@ -44,6 +48,7 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
                     newFragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "datePicker");
                 }
             });
+            deleteButton = (ImageButton) view.findViewById(R.id.button_delete);
         }
     }
 
@@ -55,12 +60,22 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
     }
 
     @Override
-    public void onBindViewHolder(ChoreViewHolder holder, int position) {
+    public void onBindViewHolder(final ChoreViewHolder holder, int position) {
         holder.textView.setText(mChoreList.get(position).getName());
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDeleteRequestListener.deleteData(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mChoreList.size();
+    }
+
+    public List<Chore> getChoreList() {
+        return mChoreList;
     }
 }

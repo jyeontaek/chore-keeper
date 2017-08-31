@@ -38,7 +38,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         db = dbHelper.getReadableDatabase();
 
         tempList = new ArrayList<>();
-        choreAdapter = new ChoreAdapter(this, tempList);
+        choreAdapter = new ChoreAdapter(this, tempList, new OnDeleteRequestListener() {
+            @Override
+            public void deleteData(int position) {
+                choreAdapter.getChoreList().remove(position);
+                choreAdapter.notifyDataSetChanged();
+
+                /*db.delete(ChoreContract.TABLE_NAME,
+                        "KEY_NAME = ?",
+                        new String[] {Integer.toString(position)}
+                );*/
+            }
+        });
 
         loadData();
 
@@ -111,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 null,
                 null,
                 null);
+        tempList = choreAdapter.getChoreList();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String name = cursor.getString(cursor.getColumnIndex(
@@ -119,6 +131,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cursor.moveToNext();
         }
         cursor.close();
-        choreAdapter = new ChoreAdapter(this, tempList);
+        choreAdapter.notifyDataSetChanged();
+    }
+
+    public interface OnDeleteRequestListener {
+        void deleteData(int position);
     }
 }

@@ -54,5 +54,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"/>
 
+    <ImageButton
+        android:id="@+id/button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/presence_busy"
+        app:layout_constraintRight_toLeftOf="@+id/button_calendar"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/button_calendar"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_calendar"/>
+
 
 </android.support.constraint.ConstraintLayout>
