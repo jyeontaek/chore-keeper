@@ -42,4 +42,17 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_chore_icon"
         tools:layout_editor_absoluteX="8dp"/>
 
+    <ImageButton
+        android:id="@+id/button_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"/>
+
+
 </android.support.constraint.ConstraintLayout>
