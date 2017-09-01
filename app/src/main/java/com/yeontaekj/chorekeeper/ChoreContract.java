@@ -15,5 +15,6 @@ public final class ChoreContract {
     public static class ChoreEntry implements BaseColumns {
         public static final String COLUMN_CHORE_NAME = "name";
         public static final String COLUMN_CHORE_DESCRIPTION = "description";
+        public static final String COLUMN_CHORE_KEY_NAME = "KEY_NAME";
     }
 }

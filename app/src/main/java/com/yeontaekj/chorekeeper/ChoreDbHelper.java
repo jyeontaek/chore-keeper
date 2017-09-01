@@ -30,5 +30,6 @@ public class ChoreDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_ENTRIES = "CREATE TABLE " + ChoreContract.TABLE_NAME + " ("
             + ChoreContract.ChoreEntry._ID + " INTEGER PRIMARY KEY,"
             + ChoreContract.ChoreEntry.COLUMN_CHORE_NAME + " TEXT,"
-            + ChoreContract.ChoreEntry.COLUMN_CHORE_DESCRIPTION + " TEXT)";
+            + ChoreContract.ChoreEntry.COLUMN_CHORE_DESCRIPTION + " TEXT,"
+            + ChoreContract.ChoreEntry.COLUMN_CHORE_KEY_NAME + " TEXT" + ")";
 }

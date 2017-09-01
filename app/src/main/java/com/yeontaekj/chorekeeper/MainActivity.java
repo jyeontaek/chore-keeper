@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         choreAdapter = new ChoreAdapter(this, tempList, new OnDeleteRequestListener() {
             @Override
             public void deleteData(int position) {
+                db.delete(ChoreContract.TABLE_NAME,
+                        "KEY_NAME = ?",
+                        new String[] {choreAdapter.getChoreList().get(position).getUUID()}
+                );
+
                 choreAdapter.getChoreList().remove(position);
                 choreAdapter.notifyDataSetChanged();
-
-                /*db.delete(ChoreContract.TABLE_NAME,
-                        "KEY_NAME = ?",
-                        new String[] {Integer.toString(position)}
-                );*/
             }
         });
 
@@ -88,12 +88,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (resultCode == NewChoreActivity.RESULT_OK) {
                 String name = data.getStringExtra("name");
                 String description = data.getStringExtra("description");
-                tempList.add(new Chore(name));
+                Chore chore = new Chore(name, description);
+                tempList.add(chore);
                 choreAdapter.notifyItemInserted(tempList.size() - 1);
 
                 ContentValues values = new ContentValues();
                 values.put("name", name);
                 values.put("description", description);
+                values.put("KEY_NAME", chore.getUUID());
                 db.insert(ChoreContract.TABLE_NAME, null, values);
             }
         }
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
+        Log.i(TAG, "loadData");
         Cursor cursor = db.query(ChoreContract.TABLE_NAME,
                 null,
                 null,
@@ -125,9 +128,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tempList = choreAdapter.getChoreList();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
+            Log.i(TAG, "loadData");
             String name = cursor.getString(cursor.getColumnIndex(
                     ChoreContract.ChoreEntry.COLUMN_CHORE_NAME));
-            tempList.add(new Chore(name));
+            String description = cursor.getString(cursor.getColumnIndex(
+                    ChoreContract.ChoreEntry.COLUMN_CHORE_DESCRIPTION
+            ));
+            String id = cursor.getString(cursor.getColumnIndex(
+                    ChoreContract.ChoreEntry.COLUMN_CHORE_KEY_NAME
+            ));
+            tempList.add(new Chore(name, description, id));
             cursor.moveToNext();
         }
         cursor.close();
