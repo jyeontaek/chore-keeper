@@ -13,17 +13,29 @@ public class Chore {
     private UUID mUUID;
 
     public Chore() {
-        this(null, null);
+        this(null, null, null);
     }
 
     public Chore(String name) {
-        this(name, null);
+        this(name, null, null);
     }
 
     public Chore(String name, String description) {
+        this(name, description, null);
+    }
+
+    public Chore(String name, String description, String uuid) {
         this.name = name;
-        this.description = description;
-        mUUID = UUID.randomUUID();
+        this.description  = description;
+        if (uuid == null) {
+            mUUID = UUID.randomUUID();
+        } else {
+            try {
+                mUUID = UUID.fromString(uuid);
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public String getName() {
@@ -34,5 +46,13 @@ public class Chore {
 
     public String getUUID() {
         return mUUID.toString();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
