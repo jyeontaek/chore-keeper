@@ -1,6 +1,7 @@
 package com.yeontaekj.chorekeeper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -44,8 +45,9 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
             calendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogFragment newFragment = new DatePickerFragment();
-                    newFragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "datePicker");
+                    Intent startCalendarActivityIntent =
+                            new Intent(mContext, CalendarActivity.class);
+                    mContext.startActivity(startCalendarActivityIntent);
                 }
             });
             deleteButton = (ImageButton) view.findViewById(R.id.button_delete);
