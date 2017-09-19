@@ -23,6 +23,7 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
     private List<Chore> mChoreList;
     private Context mContext;
     private MainActivity.OnDeleteRequestListener mDeleteRequestListener;
+    private MainActivity.OnStartCalendarRequestListener mStartCalendarRequestListener;
 
     public ChoreAdapter(Context context, List<Chore> choreList, MainActivity.OnDeleteRequestListener
                         listener) {
@@ -45,11 +46,7 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
             calendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent startCalendarActivityIntent =
-                            new Intent(mContext, CalendarActivity.class);
-                    startCalendarActivityIntent.putExtra(
-                            "chore", mChoreList.get(getAdapterPosition()));
-                    mContext.startActivity(startCalendarActivityIntent);
+                    mStartCalendarRequestListener.startCalendarActivity(getAdapterPosition());
                 }
             });
             deleteButton = (ImageButton) view.findViewById(R.id.button_delete);
@@ -82,4 +79,9 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
     public List<Chore> getChoreList() {
         return mChoreList;
     }
+
+    public void setStartCalendarRequestListener(MainActivity.OnStartCalendarRequestListener listener) {
+        mStartCalendarRequestListener = listener;
+    }
+
 }

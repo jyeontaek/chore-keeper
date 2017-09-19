@@ -61,6 +61,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 choreAdapter.notifyDataSetChanged();
             }
         });
+        choreAdapter.setStartCalendarRequestListener(new OnStartCalendarRequestListener() {
+            @Override
+            public void startCalendarActivity(int position) {
+                Intent startCalendarActivityIntent =
+                        new Intent(MainActivity.this, CalendarActivity.class);
+                startCalendarActivityIntent.putExtra(
+                        "chore", choreAdapter.getChoreList().get(position));
+                MainActivity.this.startActivity(startCalendarActivityIntent);
+            }
+        });
 
         loadData();
 
@@ -203,5 +213,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public interface OnDeleteRequestListener {
         void deleteData(int position);
+    }
+
+    public interface OnStartCalendarRequestListener {
+        void startCalendarActivity(int position);
     }
 }
