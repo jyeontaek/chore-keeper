@@ -47,6 +47,8 @@ public class ChoreAdapter extends RecyclerView.Adapter<ChoreAdapter.ChoreViewHol
                 public void onClick(View v) {
                     Intent startCalendarActivityIntent =
                             new Intent(mContext, CalendarActivity.class);
+                    startCalendarActivityIntent.putExtra(
+                            "chore", mChoreList.get(getAdapterPosition()));
                     mContext.startActivity(startCalendarActivityIntent);
                 }
             });

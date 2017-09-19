@@ -1,16 +1,25 @@
 package com.yeontaekj.chorekeeper;
 
+import android.os.Parcelable;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * Created by yeontaekj on 8/24/2017.
  */
 
-public class Chore {
+public class Chore implements Serializable {
 
     private String name;
     private String description;
     private UUID mUUID;
+    private List<DateTime> dateList;
 
     public Chore() {
         this(null, null, null);
@@ -36,6 +45,7 @@ public class Chore {
                 ex.printStackTrace();
             }
         }
+        dateList = new ArrayList<>();
     }
 
     public String getName() {
@@ -54,5 +64,9 @@ public class Chore {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<DateTime> getDates() {
+        return dateList;
     }
 }
