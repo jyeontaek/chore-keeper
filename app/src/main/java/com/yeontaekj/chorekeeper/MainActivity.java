@@ -1,6 +1,7 @@
 package com.yeontaekj.chorekeeper;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import org.joda.time.DateTime;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         db.close();
+        saveChoreDates();
         Log.i(TAG, "Reached onDestroy");
     }
 
@@ -137,11 +149,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String id = cursor.getString(cursor.getColumnIndex(
                     ChoreContract.ChoreEntry.COLUMN_CHORE_KEY_NAME
             ));
-            tempList.add(new Chore(name, description, id));
+            Chore chore = new Chore(name, description, id);
+
+            loadChoreDates(chore);
+
+            tempList.add(chore);
             cursor.moveToNext();
         }
         cursor.close();
         choreAdapter.notifyDataSetChanged();
+    }
+
+    private void loadChoreDates(Chore chore) {
+        try {
+            String fileName = chore.getUUID();
+            FileInputStream fis = openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+
+            String line = "";
+
+            while (!line.equals("")) {
+                line = br.readLine();
+                chore.addDate(new DateTime(Long.parseLong(line)));
+            }
+
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void saveChoreDates() {
+        List<Chore> choreList = choreAdapter.getChoreList();
+
+        for (Chore chore : choreList) {
+            String fileName = chore.getUUID();
+            try {
+                FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw);
+                for (DateTime date : chore.getDates()) {
+                    bw.write(Long.toString(date.getMillis()));
+                    bw.newLine();
+                }
+                bw.flush();
+                bw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public interface OnDeleteRequestListener {

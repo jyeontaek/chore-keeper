@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,8 @@ public class Chore implements Serializable {
             }
         }
         dateList = new ArrayList<>();
+
+
     }
 
     public String getName() {
@@ -68,5 +71,13 @@ public class Chore implements Serializable {
 
     public List<DateTime> getDates() {
         return dateList;
+    }
+
+    public void setDateList(List<DateTime> dateList) {
+        this.dateList = dateList;
+    }
+
+    public void addDate(DateTime date) {
+        dateList.add(date);
     }
 }
