@@ -113,4 +113,17 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         setResult(RESULT_OK, intent);
         super.onBackPressed();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause() called");
+        onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy() called");
+    }
 }

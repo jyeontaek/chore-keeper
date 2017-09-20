@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "Reached onActivityResult()");
         if (requestCode == 1) {
             if (resultCode == NewChoreActivity.RESULT_OK) {
                 String name = data.getStringExtra("name");
@@ -157,8 +158,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         db.close();
-        saveChoreDates();
+
         Log.i(TAG, "Reached onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveChoreDates();
+        Log.i(TAG, "onPause() called");
     }
 
     private void loadData() {
