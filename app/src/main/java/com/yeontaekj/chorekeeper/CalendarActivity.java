@@ -52,7 +52,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         mCalendarView.setOnDateChangedListener(this);
 
         DateTime current = new DateTime();
-        mCalendarView.setDateSelected(CalendarDay.from(current.toDate()), true);
+        currentDate = CalendarDay.from(current.toDate()) ;
+        mCalendarView.setDateSelected(currentDate, true);
+        onDateSelected(mCalendarView, currentDate, true);
     }
 
     //Colors the correct calendar dates when the chore was accomplished.
@@ -84,12 +86,20 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         if (contains_date) {
             chore.getDates().remove(date);
             dateList.remove(currentDate);
-            mButton.setBackground(ContextCompat.getDrawable(this, R.drawable.custom_button_add));
-            contains_date = false;
+            changeColor();
         } else {
             Log.i(TAG, "Added date to chore list");
             chore.addDate(date);
             dateList.add(currentDate);
+            changeColor();
+        }
+    }
+
+    private void changeColor() {
+        if (contains_date) {
+            mButton.setBackground(ContextCompat.getDrawable(this, R.drawable.custom_button_add));
+            contains_date = false;
+        } else {
             mButton.setBackground(ContextCompat.getDrawable(this, R.drawable.custom_button_delete));
             contains_date = true;
         }
@@ -126,4 +136,6 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         super.onDestroy();
         Log.i(TAG, "onDestroy() called");
     }
+
+
 }
