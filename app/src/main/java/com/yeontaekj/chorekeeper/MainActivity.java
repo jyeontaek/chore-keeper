@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new Intent(MainActivity.this, CalendarActivity.class);
                 startCalendarActivityIntent.putExtra(
                         "chore", choreAdapter.getChoreList().get(position));
-                MainActivity.this.startActivity(startCalendarActivityIntent);
+                MainActivity.this.startActivityForResult(startCalendarActivityIntent, 2);
             }
         });
 
@@ -118,6 +119,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 values.put("description", description);
                 values.put("KEY_NAME", chore.getUUID());
                 db.insert(ChoreContract.TABLE_NAME, null, values);
+            }
+        } else if (requestCode == 2) {
+            Log.i(TAG, "CalendarActivity REQUEST_OK");
+            Log.i(TAG, "resultCode:" + Integer.toString(resultCode));
+            Log.i(TAG, "RESULT_OK: " + Integer.toString(CalendarActivity.RESULT_OK));
+            if (resultCode == CalendarActivity.RESULT_OK) {
+
+                Chore chore = (Chore) data.getSerializableExtra("chore");
+
+                int position = -1;
+                for (Chore element : tempList) {
+                    if (element.getUUID().equals(chore.getUUID())) {
+                        Log.i(TAG, "Chore reset");
+                        position = tempList.indexOf(element);
+                        tempList.remove(element);
+                        break;
+                    }
+                }
+                if (position != -1) {
+                    tempList.add(position, chore);
+                }
+                choreAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -177,11 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
 
-            String line = "";
+            String line = br.readLine();
 
-            while (!line.equals("")) {
-                line = br.readLine();
+            while (line != null) {
                 chore.addDate(new DateTime(Long.parseLong(line)));
+                line = br.readLine();
             }
 
             br.close();
@@ -202,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (DateTime date : chore.getDates()) {
                     bw.write(Long.toString(date.getMillis()));
                     bw.newLine();
+                    Log.i(TAG, "Wrote new line in " + chore.getUUID());
                 }
                 bw.flush();
                 bw.close();
