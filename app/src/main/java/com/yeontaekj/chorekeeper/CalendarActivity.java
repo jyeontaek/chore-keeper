@@ -35,6 +35,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
     private Collection<CalendarDay> dateList;
     private boolean contains_date;
     private CalendarDay currentDate;
+    private FinishedDecorator currentDecorator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,8 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
             Log.i(TAG, "Added date to dateList");
             dateList.add(CalendarDay.from(date.toDate()));
         }
-        mCalendarView.addDecorator(new FinishedDecorator(this, dateList));
+        currentDecorator = new FinishedDecorator(this, dateList);
+        mCalendarView.addDecorator(currentDecorator);
     }
 
     @Override
@@ -93,6 +95,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
             dateList.add(currentDate);
             changeColor();
         }
+        mCalendarView.removeDecorator(currentDecorator);
+        currentDecorator = new FinishedDecorator(this, dateList);
+        mCalendarView.addDecorator(currentDecorator);
     }
 
     private void changeColor() {
